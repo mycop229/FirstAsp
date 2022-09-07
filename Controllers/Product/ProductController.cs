@@ -124,7 +124,15 @@ namespace Tor.Controllers.Product
                 return RedirectToAction("ProductIndex");
 
             }
-            return View();
+
+            productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+
+
+            return View(productVM);
         }
 
 
@@ -134,26 +142,34 @@ namespace Tor.Controllers.Product
             if (id == null || id == 0)
                 return NotFound();
 
-            var category = _db.Category.Find(id);
+            Models.Product product = _db.Product.Include(u=>u.Category).FirstOrDefault(u=>u.Id==id);
 
-            if (category == null)
+            if (product == null)
                 return NotFound();
 
-            return View(category);
+            return View(product);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var category = _db.Category.Find(id);
+            var product = _db.Product.Find(id);
 
-            if (category == null)
+            if (product == null)
                 return NotFound();
 
-            _db.Category.Remove(category);
+            string upload = _webHostEnviroment.WebRootPath + WC.ImagePath;
+            var oldFile = Path.Combine(upload, product.Image);
+
+            if (System.IO.File.Exists(oldFile))
+            {
+                System.IO.File.Delete(oldFile);
+            }
+
+            _db.Product.Remove(product);
             _db.SaveChanges();
-            return RedirectToAction("CategoryIndex");
+            return RedirectToAction("ProductIndex");
         }
     }
 }

@@ -75,3 +75,4 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Product\ProductInde
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\ApplicationType\ApplicationIndex.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\ApplicationType\CreateApplication.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Product\Upsert.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Product\Delete.cshtml.g.cs
