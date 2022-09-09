@@ -9,6 +9,7 @@ namespace Tor.Models
         public int Id { get; set; }
 
         [Required]
+        [DisplayName("Название")]
         public string Name { get; set; } 
     }
 }

@@ -7,19 +7,29 @@ namespace Tor.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Название")]
         public string Name { get; set; }
+
+        [Display(Name = "Короткое описание")]
+        public string ShortDesc { get; set; }
+
+        [Display(Name = "Полное описание")]
         public string Description { get; set; }
 
         [Range(1, int.MaxValue)]
+        [Display(Name = "Стоимость")]
         public double Price { get; set; }
+
+        [Display(Name = "Изображение")]
         public string Image { get; set; }
 
-        [Display(Name="Category type")]
+        [Display(Name="Категория")]
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
-        [Display(Name = "Application type")]
+        [Display(Name = "Коллекция")]
         public int ApplicationTypeId { get; set; }
         [ForeignKey("ApplicationTypeId")]
         public virtual ApplicationType ApplicationType { get; set; }

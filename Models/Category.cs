@@ -9,9 +9,10 @@ namespace Tor.Models
         public int Id { get; set; }
 
         [Required]
+        [DisplayName("Название")]
         public string Name { get; set; } 
 
-        [DisplayName("Display order")]
+        [DisplayName("Дисплей ордер")]
         [Required]
         [Range(1,int.MaxValue,ErrorMessage ="Порядок отображения категории должен быть больше 0")]
         public int DisplayOrder { get; set; }

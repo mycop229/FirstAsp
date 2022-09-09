@@ -1,0 +1,27 @@
+﻿@model Tor.Models.ViewModels.HomeWM
+
+<div class="container">
+	<div class="text-center">
+		<a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">All</a>
+		@foreach(var obj in Model.Categories)
+		{
+			if(obj.Name == "TShirt")
+			{
+				<a asp-controller="AllItems" asp-action="@obj.Name" class="btn btn-dark btn-outline-secondary">@obj.Name.Replace(' ','_')</a>
+			}
+			else
+			{
+				<a asp-controller="AllItems" asp-action="@obj.Name" class="btn btn-outline-secondary">@obj.Name.Replace(' ','_')</a>	
+			}
+		}
+	</div>
+	<br />
+	<div class="row">
+		@foreach(var prod in Model.Products)
+		{
+			<partial name="_IndividualProductCard" model="prod" />
+		}
+	</div>
+</div>
+
+

@@ -1,13 +1,13 @@
 ﻿@model Tor.Models.ViewModels.ProductVM
 
 @{
-	var title = "Create product";
+	var title = "Добавление продукта";
 }
 
 <form asp-action="Upsert" enctype="multipart/form-data" method="post" > 
 	@if(Model.Product.Id != 0)
 	{
-		title = "Edit product";
+		title = "Изменение продукта";
 		<input asp-for="Product.Id" hidden />
 	}
 	<div class="border p-3">
@@ -44,6 +44,16 @@
 
 			<div class = "form-group row">
 				<div class="col-4">
+					<label asp-for="Product.ShortDesc"></label>
+				</div>
+				<div class="col-8">
+					<input asp-for="Product.ShortDesc" class="form-control"/>
+					<span asp-validation-for="Product.ShortDesc" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class = "form-group row">
+				<div class="col-4">
 					<label asp-for="Product.Description"></label>
 				</div>
 				<div class="col-8">
@@ -54,7 +64,7 @@
 
 			<div class = "form-group row">
 				<div class="col-4">
-					Image
+					Изображение
 				</div>
 				<div class="col-8">
 					<input type="file" name="files" id="uploadBox" multiple class="form-control"/>
@@ -67,7 +77,7 @@
 				</div>
 				<div class="col-8">
 					<select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-control">
-						<option disabled selected>--Select category--</option>
+						<option disabled selected>Выберите категорию</option>
 					</select>
 					<span asp-validation-for="Product.CategoryId" class="text-danger"></span>
 				</div>
@@ -79,7 +89,7 @@
 				</div>
 				<div class="col-8">
 					<select asp-for="Product.ApplicationTypeId" asp-items="@Model.ApplicationTypeSelectList" class="form-control">
-						<option disabled selected>--Select applicationType--</option>
+						<option disabled selected>Выберите тип</option>
 					</select>
 					<span asp-validation-for="Product.ApplicationTypeId" class="text-danger"></span>
 				</div>
@@ -91,11 +101,11 @@
 				<div class="col">
 							@if(Model.Product.Id != 0)
 							{
-								<input type="submit" class="btn btn-info w-100" value="Update"/>
+								<input type="submit" class="btn btn-info w-100" value="Обновить"/>
 							}
 							else
 							{
-								<input type="submit" onclick="return validateInput()" class="btn btn-primary w-100" value="Create"/>
+								<input type="submit" onclick="return validateInput()" class="btn btn-primary w-100" value="Добавить"/>
 							}
 				</div>
 				<br/>
