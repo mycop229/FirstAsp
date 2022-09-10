@@ -155,3 +155,4 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Hodie.csht
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\TShirt.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Sneakers.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Bags.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Home\Details.cshtml.g.cs

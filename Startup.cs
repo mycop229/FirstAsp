@@ -29,6 +29,14 @@ namespace Tor
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaulConnection")
                 ));
+
+            services.AddHttpContextAccessor();
+            services.AddSession(Options =>
+            {
+                Options.IdleTimeout = TimeSpan.FromMinutes(10);
+                Options.Cookie.HttpOnly = true;
+                Options.Cookie.IsEssential = true;
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -47,6 +55,8 @@ namespace Tor
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
