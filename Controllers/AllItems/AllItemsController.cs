@@ -66,5 +66,17 @@ namespace Tor.Controllers.ListItems
 
 			return View(homeWM);
 		}
+
+		[HttpGet]
+		public IActionResult Hats()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "Hats"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
 	}
 }

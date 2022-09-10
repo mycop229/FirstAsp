@@ -2,10 +2,10 @@
 
 <div class="container">
 	<div class="text-center">
-		<button class="btn btn-dark filter-button" data-filter="all">All</button>
+		<button class="btn btn-dark filter-button" data-filter="all">Все категории</button>
 		@foreach(var obj in Model.Categories)
 		{
-				<a asp-controller="AllItems" asp-action="@obj.Name" class="btn btn-outline-secondary filter-button">@obj.Name.Replace(' ','_')</a>
+				<a asp-controller="AllItems" asp-action="@obj.Name" class="btn btn-outline-secondary filter-button">@obj.Translate</a>
 		}
 	</div>
 	<br />

@@ -16,5 +16,9 @@ namespace Tor.Models
         [Required]
         [Range(1,int.MaxValue,ErrorMessage ="Порядок отображения категории должен быть больше 0")]
         public int DisplayOrder { get; set; }
+
+        [Required]
+        [DisplayName("Перевод")]
+        public string Translate { get; set; }
     }
 }

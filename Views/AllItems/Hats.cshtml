@@ -5,7 +5,7 @@
 		<a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Все категории</a>
 		@foreach(var obj in Model.Categories)
 		{
-			if(obj.Name == "Hodie")
+			if(obj.Name == "Hats")
 			{
 				<a asp-controller="AllItems" asp-action="@obj.Name" class="btn btn-dark btn-outline-secondary">@obj.Translate</a>
 			}
