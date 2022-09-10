@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Tor.Models;
 
 namespace Tor.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }    
         public DbSet<Category> Category { get; set; }
 
         public DbSet<ApplicationType> ApplicationType { get; set; }
