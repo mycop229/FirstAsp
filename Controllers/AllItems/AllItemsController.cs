@@ -19,60 +19,138 @@ namespace Tor.Controllers.ListItems
 			_db = db;
 		}
 
-		[HttpGet]
-		public IActionResult Hodie()
-		{
+		public IActionResult Items(string name, string category)
+        {
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "Hodie"),
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == name).Where(u => u.ApplicationType.Name == category),
 				Categories = _db.Category
 			};
 
 			return View(homeWM);
 		}
 
-		[HttpGet]
-		public IActionResult TShirt()
-		{
+		[ActionName("Brand")]
+		public IActionResult Items(string name)
+        {
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "TShirt"),
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == name),
 				Categories = _db.Category
 			};
 
 			return View(homeWM);
 		}
 
-		[HttpGet]
-		public IActionResult Sneakers()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		//BRANDS
+		public IActionResult Carhartt()
 		{
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "Sneakers"),
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Carhartt"),
 				Categories = _db.Category
 			};
 
 			return View(homeWM);
 		}
-
-		[HttpGet]
-		public IActionResult Bags()
+		public IActionResult Nike()
 		{
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "Bags"),
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Nike"),
 				Categories = _db.Category
 			};
 
 			return View(homeWM);
 		}
-
-		[HttpGet]
-		public IActionResult Hats()
+		public IActionResult Adidas()
 		{
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == "Hats"),
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Adidas"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
+		public IActionResult TheNorthFace()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "The North Face"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
+		public IActionResult Puma()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Puma"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
+		public IActionResult Barbour()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Barbour"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
+		public IActionResult CalvinKlein()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "CalvinKlein"),
+				Categories = _db.Category
+			};
+
+			return View(homeWM);
+		}
+		public IActionResult Dickies()
+		{
+			HomeWM homeWM = new()
+			{
+				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == "Dickies"),
 				Categories = _db.Category
 			};
 

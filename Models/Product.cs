@@ -34,5 +34,8 @@ namespace Tor.Models
         [ForeignKey("ApplicationTypeId")]
         public virtual ApplicationType ApplicationType { get; set; }
 
+        [Display(Name = "Бренд")]
+        public string Brand { get; set; }
+
     }
 }

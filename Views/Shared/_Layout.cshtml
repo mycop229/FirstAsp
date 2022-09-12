@@ -9,30 +9,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Tor</title>
+    <link rel="stylesheet" href="~/css/header.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header style="margin-bottom:56px;">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tor</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
 
-
-                    
                         <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">На главную</a>
-                        </li>
-                        
                             @if (User.IsInRole(WC.AdminRole))
                             {
                                 <li class="nav-item dropdown">
@@ -40,22 +36,17 @@
                                 Контент
                                 </a>
                                 <ul class="dropdown-menu">
-                                
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CategoryIndex">Категории проудкта</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="ApplicationType" asp-action="ApplicationIndex">Коллекции</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="ProductIndex">Продукты</a></li>
-                                <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Создать админа</a></li>
-                                
+                                <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Создать админа</a></li>   
                                 </ul>
                                 </li>
                             }
-
-
-
                             <li>
                             @if (HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart) != null)
                             {
-                                <a asp-action="Index" asp-controller="Cart" class="nav-link">
+                                <a asp-action="CartIndex" asp-controller="Cart" class="nav-link">
                                     @{
                                         var count = HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart).Count;
                                     }
@@ -68,12 +59,81 @@
                                     <i class="fas fa-shopping-cart"></i> &nbsp; (0)
                                 </a>
                             }
+
+                        </li>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Женское
+                                </a>
+                                <ul class="dropdown-menu">
+                                <li class="dropdown-header">Одежда</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=TShirt&category=Женское">Футболки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Hodie&category=Женское">Худи</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Sweatshirt&category=Женское">Свитшоты</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Jeans&category=Женское">Джинсы</a></li>
+                                <li class="dropdown-header">Обувь</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Sneakers&category=Женское">Кроссовки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Gumshoes&category=Женское">Кеды</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Slippers&category=Женское">Тапочки</a></li>
+                                <li class="dropdown-header">Акксесуары</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Bags&category=Женское">Сумки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Hats&category=Женское">Шапки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Gloves&category=Женское">Перчатки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Belts&category=Женское">Ремни</a></li>
+                                </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Мужское
+                                </a>
+                                <ul class="dropdown-menu">
+                                <li class="dropdown-header">Одежда</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=TShirt&category=Мужское">Футболки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Hodie&category=Мужское">Худи</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Sweatshirt&category=Мужское">Свитшоты</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Jeans&category=Мужское">Джинсы</a></li>
+                                <li class="dropdown-header">Обувь</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Sneakers&category=Мужское">Кроссовки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Gumshoes&category=Мужское">Кеды</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Slippers&category=Мужское">Тапочки</a></li>
+                                <li class="dropdown-header">Акксесуары</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Bags&category=Мужское">Сумки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Hats&category=Мужское">Шапки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Gloves&category=Мужское">Перчатки</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Items?name=Belts&category=Мужское">Ремни</a></li>
+                                </ul>
+                        </li>
+                        <li class="nav-item dropdown">  
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Бренды
+                                </a>
+                                <ul class="dropdown-menu">
+                                <li class="dropdown-header">Популярное</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Carhartt">Carhartt</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Dickies">Dickies</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Nike">Nike</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Adidas">Adidas</a></li>
+                                <li class="dropdown-header">Новые поступления</li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=The North Face">The North Face</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Puma">Puma</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Barbour">Barbour</a></li>
+                                <li><a class="nav-link text-dark" href="/AllItems/Brand?name=Calvin Klein">Calvin Klein</a></li>  
+                                </ul> 
                         </li>
                         </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
+
+
+
+
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -85,6 +145,7 @@
             &copy; 2022 - Tor - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="~//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -94,3 +155,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

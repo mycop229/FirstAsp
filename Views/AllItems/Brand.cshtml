@@ -1,0 +1,14 @@
+﻿@model Tor.Models.ViewModels.HomeWM
+
+<div class="container">
+	
+	<br />
+	<div class="row">
+		@foreach(var prod in Model.Products)
+		{
+			<partial name="_IndividualProductCard" model="prod" />
+		}
+	</div>
+</div>
+
+
