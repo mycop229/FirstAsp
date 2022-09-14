@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using Tor.Data;
 using Tor.Models;
 using Tor.Models.ViewModels;
@@ -15,13 +19,15 @@ namespace Tor.Controllers.Cart
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
 
-        public CartController(ApplicationDbContext db)
+        public CartController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment; 
         }
 
         [HttpGet]
@@ -66,10 +72,57 @@ namespace Tor.Controllers.Cart
             ProductUserVM = new ProductUserVM()
             {
                 ApplicationUser = _db.ApplicationUser.FirstOrDefault(u => u.Id == claim.Value),
-                ProductList = prodList
+                ProductList = prodList.ToList()
             };
 
             return View(ProductUserVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Summary")]
+        public async Task<IActionResult> SummaryPostAsync(ProductUserVM ProductUserVM)
+        {
+            var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
+
+            var subject = "new inquiry";
+
+            double summa = 0;
+
+            string HtmlBody;
+
+            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+            {
+                HtmlBody = sr.ReadToEnd();
+            }
+
+            StringBuilder productListSB = new();
+            foreach(var prod in ProductUserVM.ProductList)
+            {
+                productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
+                summa += prod.Price;
+            }
+
+            string messageBody = string.Format(HtmlBody,
+                ProductUserVM.ApplicationUser.FullName,
+                summa.ToString("c"),
+                ProductUserVM.ApplicationUser.Email,
+                ProductUserVM.ApplicationUser.PhoneNumber,
+                productListSB.ToString());
+
+
+            EmailService emailService = new EmailService();
+
+            await emailService.SendEmailAsync(ProductUserVM.ApplicationUser.Email, subject, messageBody);
+
+
+            return RedirectToAction(nameof(InquiryConfirmation));
+        }
+
+        public IActionResult InquiryConfirmation()
+        {
+            HttpContext.Session.Clear();
+            return View();
         }
 
         public ActionResult Remove(int id)

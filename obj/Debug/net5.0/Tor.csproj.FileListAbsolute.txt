@@ -210,3 +210,8 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\CartIndex.csht
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\Summary.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Brand.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Items.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\MailKit.dll
+C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\MimeKit.dll
+C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Template\Otpravit.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\InquiryConfirmation.cshtml.g.cs
