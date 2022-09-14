@@ -85,7 +85,7 @@ namespace Tor.Controllers.Cart
         {
             var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
 
-            var subject = "new inquiry";
+            var subject = "Оформление нового заказа";
 
             double summa = 0;
 
@@ -108,6 +108,8 @@ namespace Tor.Controllers.Cart
                 summa.ToString("c"),
                 ProductUserVM.ApplicationUser.Email,
                 ProductUserVM.ApplicationUser.PhoneNumber,
+                ProductUserVM.ApplicationUser.City,
+                ProductUserVM.ApplicationUser.Address,
                 productListSB.ToString());
 
 
