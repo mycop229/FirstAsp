@@ -75,16 +75,14 @@
 										<span class="text-info">Summary:</span>
 									</h4>
 									<ul class="list-group mb-3">
-										@{
-											double summa = 0;
-										}
 										@for (int i = 0; i < Model.ProductList.Count(); i++)
 										{
 										 <input type="hidden" asp-for="@Model.ProductList[i].Id" />
 										 <input type="hidden" asp-for="@Model.ProductList[i].Name" />
-											<input type="hidden" asp-for="@Model.ProductList[i].Price" />
+										<input type="hidden" asp-for="@Model.ProductList[i].Price" />
+										
 
-											summa += Model.ProductList[i].Price;
+											Model.OldPrice += Model.ProductList[i].Price;
 
 											<li class="list-group-item d-flex justify-content-between">
 											<div>
@@ -95,13 +93,39 @@
 										}
 										<div>
 											<br />
-										 <h4 class="d-flex justify-content-between align-items-center mb-3">
+
+											<div class="col-3">
+										<label>Промокод</label>
+									</div>
+
+											@if(Model.Promocode == null | Model.Promocode == "")
+											{
+												<div class="col-9">
+													<input asp-for="@Model.Promocode" type="text" class="form-control" />
+													<span asp-validation-for="@Model.Promocode" class="text-danger"></span>
+												</div>	
+											}
+									<input type="hidden" asp-for="@Model.OldPrice" />
+											@if(Model.NewPrice == 0)
+											{
+												<h4 class="d-flex justify-content-between align-items-center mb-3">
 											<span class="text-info">Общая сумма заказа:</span>
 										</h4>
 										  <h6 class="my-0">
-											<h3 class="my-0">@summa.ToString("c")</h3>
+													<h3 class="my-0">@Model.OldPrice.ToString("c")</h3>
 										  </h6>
-									   </div>
+										  }
+										  else
+										  {
+											  <h4 class="d-flex justify-content-between align-items-center mb-3">
+											<span class="text-info">Общая сумма заказа со скидкой:</span>
+										</h4>
+										  <h6 class="my-0">
+													<h3 class="my-0">@Model.NewPrice.ToString("c")</h3>
+										  </h6>
+										  <input type="hidden" asp-for="@Model.NewPrice"/>
+										  }
+											
 									</ul>
 								</div>
 							</div>

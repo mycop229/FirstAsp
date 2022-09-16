@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Tor.Controllers.Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("CartIndex")]
-        public IActionResult CartIndexPost()
+        public IActionResult CartIndexPost(string skidka)
         {
 
             return RedirectToAction(nameof(Summary));
@@ -83,42 +84,114 @@ namespace Tor.Controllers.Cart
         [ActionName("Summary")]
         public async Task<IActionResult> SummaryPostAsync(ProductUserVM ProductUserVM)
         {
-            var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
+                if (ProductUserVM.Promocode != null)
+                {
 
-            var subject = "Оформление нового заказа";
+                // Селект количества промо
 
-            double summa = 0;
+                var remainderPromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.ValuePromo).SingleOrDefault(); 
 
-            string HtmlBody;
+                if(remainderPromo <= 0)
+                {
+                    //Обработать отсутсвие промокода
+                    return RedirectToAction(nameof(Error));
+                }
+                if(remainderPromo > 0)
+                {
+                    // Селект типа промокода
+                    var typePromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.TypePromo).SingleOrDefault();
 
-            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-            {
-                HtmlBody = sr.ReadToEnd();
+                    //Селект размера промокода
+
+                    var dimensionPromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.Dimension).SingleOrDefault();
+
+                    if (typePromo == Type.Sum) 
+                    {
+                        //Вычисление для вычитания
+                        ProductUserVM.NewPrice = ProductUserVM.OldPrice - dimensionPromo;
+                    }
+                    if(typePromo == Type.Percent)
+                    {
+                        //Вычисление для процентов
+                        ProductUserVM.NewPrice = ProductUserVM.OldPrice - (ProductUserVM.OldPrice / 100 * dimensionPromo);
+                    }
+
+                    var quantityIncrement = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).FirstOrDefault();
+
+                    quantityIncrement.ValuePromo = quantityIncrement.ValuePromo - 1;
+
+                    _db.PromoCode.Update(quantityIncrement);
+
+                    _db.SaveChanges();
+                }
+
+
+
+                return View(ProductUserVM);
+                }
+
+                else
+                {
+                var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
+
+                var subject = "Оформление нового заказа";
+
+                double summa = 0;
+
+                string HtmlBody;
+
+                using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+                {
+                    HtmlBody = sr.ReadToEnd();
+                }
+
+                StringBuilder productListSB = new();
+                foreach (var prod in ProductUserVM.ProductList)
+                {
+                    productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
+                    summa += prod.Price;
+                }
+
+                string messageBody = "";
+
+                if (ProductUserVM.NewPrice != 0)
+                {
+                    messageBody = string.Format(HtmlBody,
+                    ProductUserVM.ApplicationUser.FullName,
+                    ProductUserVM.NewPrice.ToString("c"),
+                    ProductUserVM.ApplicationUser.Email,
+                    ProductUserVM.ApplicationUser.PhoneNumber,
+                    ProductUserVM.ApplicationUser.City,
+                    ProductUserVM.ApplicationUser.Address,
+                    productListSB.ToString());
+                }
+
+                else
+                {
+                    messageBody = string.Format(HtmlBody,
+                    ProductUserVM.ApplicationUser.FullName,
+                    ProductUserVM.OldPrice.ToString("c"),
+                    ProductUserVM.ApplicationUser.Email,
+                    ProductUserVM.ApplicationUser.PhoneNumber,
+                    ProductUserVM.ApplicationUser.City,
+                    ProductUserVM.ApplicationUser.Address,
+                    productListSB.ToString());
+                }
+
+
+                EmailService emailService = new EmailService();
+
+                await emailService.SendEmailAsync(ProductUserVM.ApplicationUser.Email, subject, messageBody);
+
+                return RedirectToAction(nameof(InquiryConfirmation));
             }
 
-            StringBuilder productListSB = new();
-            foreach(var prod in ProductUserVM.ProductList)
-            {
-                productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
-                summa += prod.Price;
+                
             }
 
-            string messageBody = string.Format(HtmlBody,
-                ProductUserVM.ApplicationUser.FullName,
-                summa.ToString("c"),
-                ProductUserVM.ApplicationUser.Email,
-                ProductUserVM.ApplicationUser.PhoneNumber,
-                ProductUserVM.ApplicationUser.City,
-                ProductUserVM.ApplicationUser.Address,
-                productListSB.ToString());
-
-
-            EmailService emailService = new EmailService();
-
-            await emailService.SendEmailAsync(ProductUserVM.ApplicationUser.Email, subject, messageBody);
-
-
-            return RedirectToAction(nameof(InquiryConfirmation));
+        public IActionResult Error()
+        {
+            return View();
         }
 
         public IActionResult InquiryConfirmation()

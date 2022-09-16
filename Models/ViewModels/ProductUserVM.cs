@@ -13,6 +13,10 @@ namespace Tor.Models.ViewModels
 
         public IList<Product> ProductList { get; set; }
 
+        public double OldPrice { get; set; }
 
+        public double NewPrice { get; set; }
+
+        public string Promocode { get; set; }
     }
 }

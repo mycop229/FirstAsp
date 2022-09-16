@@ -26,24 +26,6 @@ namespace Tor.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> SendMessage()
-        {
-            EmailService emailService = new EmailService();
-
-            var path = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
-            string HtmlBody = "";
-
-            using (StreamReader sr = System.IO.File.OpenText(path))
-            {
-                HtmlBody = sr.ReadToEnd();
-            }
-
-            await emailService.SendEmailAsync("d1s8h7h@vk.com", "Тема письма", HtmlBody);
-            return RedirectToAction("Index");
-         }
-
-
-
         public IActionResult Index()
         {
             HomeWM homeWM = new()

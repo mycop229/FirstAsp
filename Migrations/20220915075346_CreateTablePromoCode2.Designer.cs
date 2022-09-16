@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tor.Data;
 
 namespace Tor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220915075346_CreateTablePromoCode2")]
+    partial class CreateTablePromoCode2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,8 +309,8 @@ namespace Tor.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Dimension")
-                        .HasColumnType("int");
+                    b.Property<string>("Dimension")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -316,8 +318,8 @@ namespace Tor.Migrations
                     b.Property<int>("TypePromo")
                         .HasColumnType("int");
 
-                    b.Property<int>("ValuePromo")
-                        .HasColumnType("int");
+                    b.Property<string>("ValuePromo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

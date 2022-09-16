@@ -67,10 +67,6 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\refint\Tor.dll
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Tor.pdb
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Tor.genruntimeconfig.cache
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\ref\Tor.dll
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\CategoryIndex.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Create.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Edit.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Delete.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Product\ProductIndex.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\ApplicationType\ApplicationIndex.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\ApplicationType\CreateApplication.cshtml.g.cs
@@ -215,3 +211,8 @@ C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\MimeKit.dll
 C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Template\Otpravit.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\InquiryConfirmation.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\CategoryIndex.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Create.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Delete.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Edit.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\Error.cshtml.g.cs
