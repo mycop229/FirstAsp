@@ -211,8 +211,13 @@ C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\MimeKit.dll
 C:\Users\volko\source\repos\Tor\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Template\Otpravit.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\InquiryConfirmation.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\CategoryIndex.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Create.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Delete.cshtml.g.cs
-C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Category\Edit.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Cart\Error.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\CategoryIndex.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Create.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Delete.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Category\Edit.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\PromoCode\PromoCodeIndex.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\PromoCode\Upsert.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\PromoCode\Delete.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\MailingList\MailingListIndex.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Template\NewPromo.cshtml.g.cs

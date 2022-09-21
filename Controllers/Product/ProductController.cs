@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Tor.Data;
 using Tor.Models.ViewModels;
 
@@ -16,28 +17,22 @@ namespace Tor.Controllers.Product
         private readonly ApplicationDbContext _db;
 
         private readonly IWebHostEnvironment _webHostEnviroment;
-
         public ProductController(ApplicationDbContext db, IWebHostEnvironment webHostEnviroment)
         {
             _db = db;
             _webHostEnviroment = webHostEnviroment;
         }
-        public IActionResult ProductIndex()
-        {
-            IEnumerable<Models.Product> objList = _db.Product.Include(u=>u.Category).Include(u=>u.ApplicationType);
 
-            //foreach(var obj in objList){
-            //    obj.Category = _db.Category.FirstOrDefault(u => u.Id == obj.CategoryId);
-            //    obj.ApplicationType = _db.ApplicationType.FirstOrDefault(u => u.Id == obj.ApplicationTypeId);
-            //}
+        [HttpGet]
+        public async Task<IActionResult> ProductIndex()
+        {
+            IEnumerable<Models.Product> objList = await _db.Product.Include(u=>u.Category).Include(u=>u.ApplicationType).ToListAsync();
 
             return View(objList);
         }
 
-
-
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             ProductVM productVM = new ProductVM()
             {
@@ -61,7 +56,7 @@ namespace Tor.Controllers.Product
             }
             else
             {
-                productVM.Product = _db.Product.Find(id);
+                productVM.Product = await _db.Product.FindAsync(id);
 
                 if (productVM.Product == null)
                 {
@@ -73,7 +68,7 @@ namespace Tor.Controllers.Product
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ProductVM productVM)
+        public async Task<IActionResult> Upsert(ProductVM productVM)
         {
             if (ModelState.IsValid)
             {
@@ -93,12 +88,12 @@ namespace Tor.Controllers.Product
 
                     productVM.Product.Image = fileName + extension;
 
-                    _db.Product.Add(productVM.Product);
+                    await _db.Product.AddAsync(productVM.Product);
                     
                 }
                 else
                 {
-                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+                    var objFromDb = await _db.Product.AsNoTracking().FirstOrDefaultAsync(u => u.Id == productVM.Product.Id);
 
                     if (files.Count > 0)
                     {
@@ -126,7 +121,7 @@ namespace Tor.Controllers.Product
                     }
                     _db.Product.Update(productVM.Product);
                 }
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return RedirectToAction("ProductIndex");
 
             }
@@ -145,14 +140,13 @@ namespace Tor.Controllers.Product
             return View(productVM);
         }
 
-
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
                 return NotFound();
 
-            Models.Product product = _db.Product.Include(u=>u.Category).Include(u=>u.ApplicationType).FirstOrDefault(u=>u.Id==id);
+            Models.Product product = await _db.Product.Include(u=>u.Category).Include(u=>u.ApplicationType).FirstOrDefaultAsync(u=>u.Id==id);
 
             if (product == null)
                 return NotFound();
@@ -162,7 +156,7 @@ namespace Tor.Controllers.Product
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        public async Task<IActionResult> DeletePost(int? id)
         {
             var product = _db.Product.Find(id);
 
@@ -178,7 +172,7 @@ namespace Tor.Controllers.Product
             }
 
             _db.Product.Remove(product);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("ProductIndex");
         }
     }

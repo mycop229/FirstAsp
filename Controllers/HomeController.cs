@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Tor.Data;
@@ -26,11 +25,11 @@ namespace Tor.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             HomeWM homeWM = new()
             {
-                Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType),
+                Products = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).ToListAsync(),
                 Categories = _db.Category
             };
 
@@ -38,7 +37,7 @@ namespace Tor.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
 
@@ -50,7 +49,7 @@ namespace Tor.Controllers
 
             DetailsWM detailsVM = new DetailsWM()
             {
-                Product = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == id).FirstOrDefault(),
+                Product = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == id).FirstOrDefaultAsync(),
                 ExistsInCart = false
             };
 

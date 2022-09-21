@@ -11,6 +11,7 @@ namespace Tor.Data
         public DbSet<ApplicationType> ApplicationType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<PromoСode> PromoCode { get; set; }
+        public DbSet<MailingList> MailingList { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

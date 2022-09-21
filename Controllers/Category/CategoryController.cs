@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tor.Data;
-using Tor.Models;
 
 namespace Tor.Controllers.Category
 {
@@ -14,9 +14,9 @@ namespace Tor.Controllers.Category
         {
             _db = db;
         }
-        public IActionResult CategoryIndex()
+        public async Task<IActionResult> CategoryIndex() 
         {
-            IEnumerable<Models.Category> response = _db.Category;
+            IEnumerable<Models.Category> response = await _db.Category.ToListAsync();
             return View(response);
         }
 
@@ -30,24 +30,24 @@ namespace Tor.Controllers.Category
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Models.Category category)
+        public async Task<IActionResult> Create(Models.Category category)
         {
             if (ModelState.IsValid)
             {
-                _db.Category.Add(category);
-                _db.SaveChanges();
+                await _db.Category.AddAsync(category);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("CategoryIndex");
             }
             return View(category);
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
                 return NotFound();
 
-            var category = _db.Category.Find(id);
+            var category = await _db.Category.FindAsync(id);
 
             if (category == null)
                 return NotFound();
@@ -57,24 +57,24 @@ namespace Tor.Controllers.Category
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Models.Category category)
+        public async Task<IActionResult> Edit(Models.Category category)
         {
             if (ModelState.IsValid)
             {
                 _db.Category.Update(category);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return RedirectToAction("CategoryIndex");
             }
             return View(category);
         }
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
                 return NotFound();
 
-            var category = _db.Category.Find(id);
+            var category = await _db.Category.FindAsync(id);
 
             if (category == null)
                 return NotFound();
@@ -84,15 +84,15 @@ namespace Tor.Controllers.Category
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        public async Task<IActionResult> DeletePost(int? id)
         {
-            var category = _db.Category.Find(id);
+            var category = await _db.Category.FindAsync(id);
 
             if (category == null)
                 return NotFound();
 
             _db.Category.Remove(category);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("CategoryIndex");
         }
     }

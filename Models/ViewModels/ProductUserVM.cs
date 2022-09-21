@@ -17,6 +17,8 @@ namespace Tor.Models.ViewModels
 
         public double NewPrice { get; set; }
 
+        public double DiscountAmount { get; set; }
+
         public string Promocode { get; set; }
     }
 }

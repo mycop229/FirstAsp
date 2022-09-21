@@ -1,0 +1,57 @@
+﻿@model Tor.Models.MailingList
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<form method="post" asp-action="MailingListIndex">
+	<div class="border p-3">
+
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+		<div class="form-group row">
+			<h2 class="text-info pl-3">Подписка на рассылку</h2>
+		</div>
+
+		<div class = "row">
+		<div class="col-8"> 
+
+			<div class = "form-group row">
+				<div class="col-4">
+					<label asp-for="Email"></label>
+				</div>
+				<div class="col-8">
+					<input asp-for="Email" class="form-control"/>
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+			</div>
+
+
+
+			<div class = "form-group row">
+				<div class="col-8 offset-4 row">
+
+				<div class="col">
+					<input type="submit" class="btn btn-info w-100" value="Добавить"/>
+				</div>
+				<br/>
+				<div class="col">
+					<a asp-controller="Home" asp-action="Index" class="btn btn-success w-100"><i class="fa-solid fa-arrow-right-from-bracket"> &nbsp; </i>Назад</a>
+				</div>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+
+</div>
+</form>
+
+
+@section Scripts{
+	
+	@{<partial name="_ValidationScriptsPartial" />}
+
+}

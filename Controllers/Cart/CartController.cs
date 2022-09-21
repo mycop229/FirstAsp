@@ -32,7 +32,7 @@ namespace Tor.Controllers.Cart
         }
 
         [HttpGet]
-        public ActionResult CartIndex()
+        public async Task<ActionResult> CartIndex()
         {
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
@@ -41,7 +41,7 @@ namespace Tor.Controllers.Cart
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
-            IEnumerable<Models.Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
+            IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
 
             return View(prodList);
         }
@@ -56,7 +56,7 @@ namespace Tor.Controllers.Cart
         }
 
         [HttpGet]
-        public IActionResult Summary()
+        public async Task<IActionResult> Summary()
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -68,11 +68,11 @@ namespace Tor.Controllers.Cart
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
-            IEnumerable<Models.Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
+            IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
 
             ProductUserVM = new ProductUserVM()
             {
-                ApplicationUser = _db.ApplicationUser.FirstOrDefault(u => u.Id == claim.Value),
+                ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Id == claim.Value),
                 ProductList = prodList.ToList()
             };
 
@@ -89,7 +89,7 @@ namespace Tor.Controllers.Cart
 
                 // Селект количества промо
 
-                var remainderPromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.ValuePromo).SingleOrDefault(); 
+                var remainderPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.ValuePromo).SingleOrDefaultAsync(); 
 
                 if(remainderPromo <= 0)
                 {
@@ -99,11 +99,11 @@ namespace Tor.Controllers.Cart
                 if(remainderPromo > 0)
                 {
                     // Селект типа промокода
-                    var typePromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.TypePromo).SingleOrDefault();
+                    var typePromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.TypePromo).SingleOrDefaultAsync();
 
                     //Селект размера промокода
 
-                    var dimensionPromo = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.Dimension).SingleOrDefault();
+                    var dimensionPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.Dimension).SingleOrDefaultAsync();
 
                     if (typePromo == Type.Sum) 
                     {
@@ -116,13 +116,15 @@ namespace Tor.Controllers.Cart
                         ProductUserVM.NewPrice = ProductUserVM.OldPrice - (ProductUserVM.OldPrice / 100 * dimensionPromo);
                     }
 
-                    var quantityIncrement = _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).FirstOrDefault();
+                    ProductUserVM.DiscountAmount = ProductUserVM.OldPrice - ProductUserVM.NewPrice;
+
+                    var quantityIncrement = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).FirstOrDefaultAsync();
 
                     quantityIncrement.ValuePromo = quantityIncrement.ValuePromo - 1;
 
                     _db.PromoCode.Update(quantityIncrement);
 
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
                 }
 
 

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tor.Data;
-using Tor.Models;
 
 namespace Tor.Controllers.ApplicationType
 {
@@ -14,9 +15,9 @@ namespace Tor.Controllers.ApplicationType
         {
             _db = db;
         }
-        public IActionResult ApplicationIndex()
+        public async Task<IActionResult> ApplicationIndexAsync()
         {
-            IEnumerable<Models.ApplicationType> response = _db.ApplicationType;
+            IEnumerable<Models.ApplicationType> response = await _db.ApplicationType.ToListAsync();
             return View(response);
         }
 
@@ -28,12 +29,12 @@ namespace Tor.Controllers.ApplicationType
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateApplication(Models.ApplicationType obj)
+        public async Task<IActionResult> CreateApplication(Models.ApplicationType obj)
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Add(obj);
-                _db.SaveChanges();
+                await _db.ApplicationType.AddAsync(obj);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("ApplicationIndex");
             }
             return View(obj);

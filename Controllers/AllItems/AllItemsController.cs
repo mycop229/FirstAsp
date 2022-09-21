@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Tor.Data;
-using Tor.Models;
 using Tor.Models.ViewModels;
 
 namespace Tor.Controllers.ListItems
@@ -19,11 +17,11 @@ namespace Tor.Controllers.ListItems
 			_db = db;
 		}
 
-		public IActionResult Items(string name, string category)
+		public async Task<IActionResult> Items(string name, string category)
         {
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == name).Where(u => u.ApplicationType.Name == category),
+				Products = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Category.Name == name).Where(u => u.ApplicationType.Name == category).ToListAsync(),
 				Categories = _db.Category
 			};
 
@@ -31,11 +29,11 @@ namespace Tor.Controllers.ListItems
 		}
 
 		[ActionName("Brand")]
-		public IActionResult Items(string name)
+		public async Task<IActionResult> Items(string name)
         {
 			HomeWM homeWM = new()
 			{
-				Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == name),
+				Products = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Brand == name).ToListAsync(),
 				Categories = _db.Category
 			};
 
