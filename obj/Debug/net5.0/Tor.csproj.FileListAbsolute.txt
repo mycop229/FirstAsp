@@ -221,3 +221,8 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\PromoCode\Upsert.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\PromoCode\Delete.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\MailingList\MailingListIndex.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Template\NewPromo.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\MailingList\MailingListExp.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\MailingList\MailingListSuccess.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Order\OrderListIndex.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Order\Exp.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Home\Authorize.cshtml.g.cs

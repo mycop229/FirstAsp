@@ -1,0 +1,14 @@
+﻿.form__input {
+    width: 100%;
+    padding: 0 0 10px 0;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form__input:focus {
+    border-bottom: 1px solid #1a73a8;
+}
+

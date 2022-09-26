@@ -25,6 +25,11 @@ namespace Tor.Controllers
             _db = db;
         }
 
+        public async Task<IActionResult> Authorize()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             HomeWM homeWM = new()

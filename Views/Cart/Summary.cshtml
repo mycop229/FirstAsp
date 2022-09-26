@@ -1,5 +1,7 @@
 ﻿@model Tor.Models.ViewModels.ProductUserVM
 
+<link rel="stylesheet" href="/css/cart.css" />
+
 <form method = "post">
 	<br />
 	<div class="backgroundWhiteBorder">
@@ -84,8 +86,6 @@
 										 <input type="hidden" asp-for="@Model.ProductList[i].Name" />
 											<input type="hidden" asp-for="@Model.ProductList[i].Price" />
 
-											
-											
 											Model.OldPrice += Model.ProductList[i].Price;
 
 											<li class="list-group-item d-flex justify-content-between">
@@ -159,6 +159,36 @@
 		</div>
 	</div>
 </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @section Scripts{
 	<partial name="_ValidationScriptsPartial" />

@@ -276,6 +276,33 @@ namespace Tor.Migrations
                     b.ToTable("MailingList");
                 });
 
+            modelBuilder.Entity("Tor.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("OrderAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("OrderList")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderPrice")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("Tor.Models.Product", b =>
                 {
                     b.Property<int>("Id")

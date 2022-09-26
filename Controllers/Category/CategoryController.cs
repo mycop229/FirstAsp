@@ -14,6 +14,8 @@ namespace Tor.Controllers.Category
         {
             _db = db;
         }
+
+        [HttpGet]
         public async Task<IActionResult> CategoryIndex() 
         {
             IEnumerable<Models.Category> response = await _db.Category.ToListAsync();

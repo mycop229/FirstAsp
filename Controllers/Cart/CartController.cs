@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Tor.Controllers.Cart
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
 
+        public ProductCartVM ProductCartVM { get; set; }
+
         public CartController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
@@ -40,8 +43,14 @@ namespace Tor.Controllers.Cart
             {
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
+
+
+
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
+
             IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
+
+            ViewBag.Promocode = "AYE";
 
             return View(prodList);
         }
@@ -49,9 +58,9 @@ namespace Tor.Controllers.Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("CartIndex")]
-        public IActionResult CartIndexPost(string skidka)
+        public IActionResult CartIndexPost()
         {
-
+            
             return RedirectToAction(nameof(Summary));
         }
 
@@ -105,12 +114,12 @@ namespace Tor.Controllers.Cart
 
                     var dimensionPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.Dimension).SingleOrDefaultAsync();
 
-                    if (typePromo == Type.Sum) 
+                    if (typePromo == Models.Type.Sum) 
                     {
                         //Вычисление для вычитания
                         ProductUserVM.NewPrice = ProductUserVM.OldPrice - dimensionPromo;
                     }
-                    if(typePromo == Type.Percent)
+                    if(typePromo == Models.Type.Percent)
                     {
                         //Вычисление для процентов
                         ProductUserVM.NewPrice = ProductUserVM.OldPrice - (ProductUserVM.OldPrice / 100 * dimensionPromo);
@@ -148,13 +157,17 @@ namespace Tor.Controllers.Cart
                 }
 
                 StringBuilder productListSB = new();
+                StringBuilder productListToDB = new();
                 foreach (var prod in ProductUserVM.ProductList)
                 {
+                    productListToDB.Append(Environment.NewLine + $"{prod.Name}");
                     productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
                     summa += prod.Price;
                 }
 
                 string messageBody = "";
+
+                string Id_user = clsCommon.GetUserId(this.User);
 
                 if (ProductUserVM.NewPrice != 0)
                 {
@@ -166,6 +179,16 @@ namespace Tor.Controllers.Cart
                     ProductUserVM.ApplicationUser.City,
                     ProductUserVM.ApplicationUser.Address,
                     productListSB.ToString());
+
+                    Order order = new Order
+                    {
+                        OrderDate = System.DateTime.Today,
+                        OrderPrice = ProductUserVM.NewPrice.ToString(),
+                        OrderList = productListToDB.ToString(),
+                        OrderAddress = ProductUserVM.ApplicationUser.Address,
+                        UserId = Id_user
+                    };
+                    await _db.Order.AddAsync(order);
                 }
 
                 else
@@ -178,12 +201,27 @@ namespace Tor.Controllers.Cart
                     ProductUserVM.ApplicationUser.City,
                     ProductUserVM.ApplicationUser.Address,
                     productListSB.ToString());
+
+                    Order order = new Order
+                    {
+                        OrderDate = System.DateTime.Today,
+                        OrderPrice = ProductUserVM.OldPrice.ToString(),
+                        OrderList = productListToDB.ToString(),
+                        OrderAddress = ProductUserVM.ApplicationUser.Address,
+                        UserId = Id_user
+                    };
+                    await _db.Order.AddAsync(order);
                 }
+
+                
 
 
                 EmailService emailService = new EmailService();
 
                 await emailService.SendEmailAsync(ProductUserVM.ApplicationUser.Email, subject, messageBody);
+
+                
+                _db.SaveChanges();
 
                 return RedirectToAction(nameof(InquiryConfirmation));
             }

@@ -1,53 +1,37 @@
 ﻿@model Tor.Models.MailingList
 
-@{
-	ViewData["Title"] = "Create";
-}
+<link rel="stylesheet" href="/css/tryauthorize.css" />
 
-<form method="post" asp-action="MailingListIndex">
-	<div class="border p-3">
-
-		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-		<div class="form-group row">
-			<h2 class="text-info pl-3">Подписка на рассылку</h2>
-		</div>
-
-		<div class = "row">
-		<div class="col-8"> 
-
-			<div class = "form-group row">
-				<div class="col-4">
-					<label asp-for="Email"></label>
-				</div>
-				<div class="col-8">
-					<input asp-for="Email" class="form-control"/>
-					<span asp-validation-for="Email" class="text-danger"></span>
-				</div>
+<section class="vh-50 mt-10 " style="background-color: white;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-12">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+			  <div class="col-12 mt-3">
+				<h2 class="text-center ">Подпишитесь на рассылку</h2>
 			</div>
+            <div class="col-md-12 col-lg-12 d-flex align-items-center">
+              <div class="card-body pl-5 text-black align-items-center">
+                <form method="post" asp-action="MailingListIndex">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                  <div class="form-outline mb-4">
+                    <input asp-for="Email" id="form2Example17" class="form__input" placeholder="E-mail"/>
+                    <span asp-validation-for="Email" class="text-danger" ></span>
+                  </div>
+                  <div class="pt-1 mb-4">
+                    <button class="btn btn-dark btn-lg btn-block" type="submit">Подписаться</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-
-
-			<div class = "form-group row">
-				<div class="col-8 offset-4 row">
-
-				<div class="col">
-					<input type="submit" class="btn btn-info w-100" value="Добавить"/>
-				</div>
-				<br/>
-				<div class="col">
-					<a asp-controller="Home" asp-action="Index" class="btn btn-success w-100"><i class="fa-solid fa-arrow-right-from-bracket"> &nbsp; </i>Назад</a>
-				</div>
-				</div>
-			</div>
-
-
-		</div>
-
-	</div>
-
-</div>
-</form>
 
 
 @section Scripts{
@@ -55,3 +39,4 @@
 	@{<partial name="_ValidationScriptsPartial" />}
 
 }
+

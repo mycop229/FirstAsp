@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,6 +23,18 @@ namespace Tor.Controllers.MailingList
 
         [HttpGet]
         public IActionResult MailingListIndex()
+        {
+            //string Id_user = clsCommon.GetUserId(this.User);
+
+            return View();
+        }
+
+        public IActionResult MailingListSuccess()
+        {
+            return View();
+        }
+
+        public IActionResult MailingListExp()
         {
             return View();
         }
@@ -67,9 +80,9 @@ namespace Tor.Controllers.MailingList
             }
             else
             {
-                return RedirectToAction("Exception");
+                return RedirectToAction("MailingListExp");
             }
-            return View();
+            return RedirectToAction("MailingListSuccess");
         }
 
         public string CreatePromo()
@@ -88,6 +101,7 @@ namespace Tor.Controllers.MailingList
             }
             return str;
         }
+
 
     }
 }
