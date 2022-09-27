@@ -93,7 +93,22 @@ namespace Tor.Controllers.Cart
         [ActionName("Summary")]
         public async Task<IActionResult> SummaryPostAsync(ProductUserVM ProductUserVM)
         {
-                if (ProductUserVM.Promocode != null)
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
+            if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
+                && HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart).Count() > 0)
+            {
+                shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+            }
+            List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
+            IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
+
+            ProductUserVM.ProductList = prodList.ToList();
+
+
+            if (ProductUserVM.Promocode != null)
                 {
 
                 // Селект количества промо
@@ -225,9 +240,8 @@ namespace Tor.Controllers.Cart
 
                 return RedirectToAction(nameof(InquiryConfirmation));
             }
+ }
 
-                
-            }
 
         public IActionResult Error()
         {

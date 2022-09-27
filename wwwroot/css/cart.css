@@ -68,6 +68,7 @@
 
 .col-2, .col {
     padding: 0 1vh;
+    margin-bottom: 15px;
 }
 
 a {
@@ -108,7 +109,7 @@ select {
 input {
     border: 1px solid rgba(0, 0, 0, 0.137);
     padding: 1vh;
-    margin-bottom: 4vh;
+    margin-bottom: 15px;
     outline: none;
     width: 100%;
     background-color: rgb(247, 247, 247);
