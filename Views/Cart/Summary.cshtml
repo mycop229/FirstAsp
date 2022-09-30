@@ -2,7 +2,6 @@
 
 <link rel="stylesheet" href="/css/cart.css" />
 
-
 <form method = "post">
 <section class="vh-50 mt-10 ml-100">
 	<div class="card">
@@ -53,19 +52,19 @@
 						}
                     </div>
                         
-						<input id="code" placeholder="Имя" asp-for="ApplicationUser.FullName" type="text" />
+						<input id="code" class="form__input" placeholder="Имя" asp-for="ApplicationUser.FullName" type="text" />
 						<span asp-validation-for="ApplicationUser.FullName" class="text-danger"></span>
 
-						<input id="code" placeholder="Номер телефона" asp-for="ApplicationUser.PhoneNumber" type="text" />
+						<input id="code" class="form__input" placeholder="Номер телефона" asp-for="ApplicationUser.PhoneNumber" type="text" />
 						<span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
 
-						<input id="code" placeholder="Email адрес" asp-for="ApplicationUser.Email" type="text" />
+						<input id="code" class="form__input" placeholder="Email адрес" asp-for="ApplicationUser.Email" type="text" />
 						<span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
 
-						<input id="code" placeholder="Город" asp-for="ApplicationUser.City" type="text" />
+						<input id="code" class="form__input" placeholder="Город" asp-for="ApplicationUser.City" type="text" />
 						<span asp-validation-for="ApplicationUser.City" class="text-danger"></span>
 
-						<input id="code" placeholder="Адрес" asp-for="ApplicationUser.Address" type="text" />
+						<input id="code" class="form__input" placeholder="Адрес" asp-for="ApplicationUser.Address" type="text" />
 						<span asp-validation-for="ApplicationUser.Address" class="text-danger"></span>
 
 						@{
@@ -76,7 +75,7 @@
 						@if (Model.Promocode == null | Model.Promocode == "")
 						{
 						<p>Используйте промокод</p>
-						<input id="code" placeholder="Промокод" asp-for="@Model.Promocode" type="text" />
+						<input id="code" class="form__inputPromo" placeholder="Промокод" asp-for="@Model.Promocode" type="text" />
 						<span asp-validation-for="@Model.Promocode" class="text-danger"></span>
 						}
 

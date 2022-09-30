@@ -1,36 +1,56 @@
 ﻿@model Tor.Models.Product
 
 
+<link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css">
+
 <div class ="filter @Model.Category.Name.Replace(' ','_') col-lg-3 col-md-6 col-sm-6 col-xs-6 pb-4">
-	<div class="card bg-white rounded shadow-sm" style="border: 1px solid #222">
-		<div class = "card-body px-3 pt-3 pb-1 row">
-			<div class="col-7"><label class="float-left">@Model.Name</label></div>
-			<div class="col-5"><label class="float-right"><span class="text-info h5">@Model.Price.ToString("c")</span></i></label></div>
-		</div>
-		<img class="card-img-top img-fluid d-block mx-auto mb-3" src="@WC.ImagePath@Model.Image" alt="Card image cap" />
+	<div class="bg-white ">
+			
+
+		
+		<a asp-controller="Home" asp-action="Details" asp-route-id="@Model.Id">
+		<img class="card-img-top img-fluid d-block mx-auto mb-2" src="@WC.ImagePath@Model.Image" alt="Card image cap"/>
+		
+
+
+
 		<div class="card-body p-1 px-3 row">
-			<div class="col-6">
+
+			<div class="col-12" style="font-size: 15px; color: black; text-align:center; font-weight: bold"><label><span class="h7" style="color:black; margin-bottom: -15px;">@Model.Brand</span></label></div>
+			<div class="col-12" style="font-size: 10px; color: gray; text-align:center; margin-bottom: -10px"><label class="align-items-center">@Model.Name</label></div>
+			<div class="col-12" style="font-size: 10px; color: gray; text-align:center; margin-bottom: -10px;"><label><span class="h7" style="color:gray;">@Model.Category.Translate</span></label></div>
+			<div class="col-12" style="font-size: 13px; color: black; text-align:center; margin-bottom: -10px;"><label><span class="h7" style="color:black;">@Model.Price.ToString("c0")</span></label></div>
+
+
+
+			@*<div class="col-6">
 				<span class="badge p-2 border w-100" style="background-color: lavenderblush">@Model.Category.Translate</span>
 			</div>
 			<div class = "col-6 border-0">
 				<span class="badge p-2 border w-100" style="background-color:aliceblue">@Model.ApplicationType.Name</span>
-			</div>
-			<div class = "col-12 pt-2" style="font-size:13px; text-align:justify">
+			</div>*@
+
+			@*<div class = "col-12 pt-2" style="font-size:13px; text-align:justify">
 				<p>@Model.ShortDesc</p>
-			</div>
-			<div class="col-12 p-1">
+			</div>*@
+			@*<div class="col-12 p-1">
 				@if (User.IsInRole(WC.CustomerRole) | User.IsInRole(WC.AdminRole))
 				{
-					<a asp-controller="Home" asp-action="Details" asp-route-id="@Model.Id" class = "btn-primary btn-dark form-control btn-sm p-2" style="height:40px center">Подробнее</a>
+					<a asp-controller="Home" asp-action="Details" asp-route-id="@Model.Id" class = "btn-dark form-control btn-sm p-2" style="height:40px center; text-align:center">Подробнее</a>
 				}
 				else
 				{
-					<a asp-area="Identity" asp-page="/Account/Login" class = "btn-primary btn-dark form-control btn-sm p-2" style="height:40px center">Подробнее</a>
+					<a asp-area="Identity" asp-page="/Account/Login" class = "btn btn-dark btn-lg btn-block mt-2" style="height:40px center; text-align:center">Подробнее</a>
 				}
-			</div>
+			</div>*@
 		</div>
+		</a>
 	</div>
 </div>
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+

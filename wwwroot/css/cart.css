@@ -1,4 +1,30 @@
-﻿.card {
+﻿.form__input {
+    width: 100%;
+    padding: 0 0 10px 0;
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form__inputPromo {
+    width: 100%;
+    padding: 0 0 10px 0;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form__input:focus {
+ border-bottom: 1px solid #1a73a8;
+}
+.form__inputPromo:focus {
+    border-bottom: transparent;
+}
+
+.card {
     margin-top:100px;
     margin-left: 100px;
     max-width: 950px;
@@ -68,7 +94,7 @@
 
 .col-2, .col {
     padding: 0 1vh;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 a {

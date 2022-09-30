@@ -17,27 +17,11 @@ namespace Tor.Controllers.Orders
         }
 
         [HttpGet]
-        public async Task<IActionResult> OrderListIndex(string id)
+        public async Task<IActionResult> OrderListIndex()
         {
-
             List<Models.Order> remainderPromo = null; 
             string Id_user = clsCommon.GetUserId(this.User);
-
-            if (Id_user == id)
-            {
-                remainderPromo = await _db.Order.AsNoTracking().Where(u => u.UserId == Id_user).ToListAsync();
-            }
-            else
-            {
-                return RedirectToAction("Exp");
-            }
-            
-            
-            
-            
-
-
-
+            remainderPromo = await _db.Order.AsNoTracking().Where(u => u.UserId == Id_user).ToListAsync();
             return View(remainderPromo);
         }
     }

@@ -1,14 +1,27 @@
 ﻿@page
 @model EmailModel
 @{
-    ViewData["Title"] = "Управление почтой";
+    
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
+
+<link rel="stylesheet" href="/css/input.css" />
 
 <h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
-    <div class="col-md-6">
+    
+    <div class="col-md-10 ml-5">
+
+
+        <div class="d-flex align-items-center mb-4 pb-1 mt-5">
+           <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+           <span class="h1 fw-bold mb-0">Tor</span>
+        </div>
+         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Изменить E-mail адрес</h5>
+
+
+
         <form id="email-form" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -16,7 +29,7 @@
                 @if (Model.IsEmailConfirmed)
                 {
                     <div class="input-group">
-                        <input asp-for="Email" class="form-control" disabled />
+                        <input asp-for="Email" class="form__input" disabled />
                         <div class="input-group-append">
                             <span class="input-group-text text-success font-weight-bold">✓</span>
                         </div>
@@ -24,16 +37,16 @@
                 }
                  else
                 {
-                    <input asp-for="Email" class="form-control" disabled />
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Отправить письмо с подтверждением</button>
+                    <input asp-for="Email" class="form__input" disabled />
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link btn-lg" style="color: gray">Отправить письмо с подтверждением</button>
                 }
             </div>
             <div class="form-group">
                 <label asp-for="Input.NewEmail">Новый E-mail</label>
-                <input asp-for="Input.NewEmail" class="form-control" />
+                <input asp-for="Input.NewEmail" class="form__input" />
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Изменить E-mail</button>
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-dark btn-lg btn-block mt-2">Изменить E-mail</button>           @*NADO*@
         </form>
     </div>
 </div>

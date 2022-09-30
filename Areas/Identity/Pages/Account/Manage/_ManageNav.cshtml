@@ -1,9 +1,13 @@
 ﻿@using Tor
 @inject SignInManager<IdentityUser> SignInManager
+
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     string Id_user = clsCommon.GetUserId(this.User);
 }
+
+
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link text-dark @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Профиль</a></li>
     <li class="nav-item"><a href="/Order/OrderListIndex?id=@Id_user">История заказов</a></li>

@@ -1,5 +1,7 @@
 ﻿@model Tor.Models.ViewModels.HomeWM
 
+<link rel="stylesheet" href="/css/carthide.css" />
+
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -45,3 +47,22 @@
 </div>
 
 
+@section Scripts{
+		 <script>
+                   let cartt = document.querySelectorAll(".filter");
+
+                   
+                   for(let item of cartt){
+                       let cart = item.childNodes[1].childNodes[1].childNodes[3];
+                       cart.addEventListener("mouseenter",()=>{
+                       cart.classList.add("ayes");    
+                   })
+                   cart.addEventListener("mouseleave", ()=>{
+                       cart.classList.remove("ayes");
+                   })
+                   }
+
+                  
+
+         </script>
+}
