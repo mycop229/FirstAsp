@@ -21,4 +21,6 @@ namespace Tor.Models.ViewModels
 
         public string Promocode { get; set; }
     }
+
+    
 }

@@ -1,58 +1,113 @@
-﻿@model Tor.Models.ViewModels.DetailsWM
+﻿@using Tor
+@model Tor.Models.ViewModels.DetailsWM
 
+<link rel="stylesheet" href="/css/details.css" />
 
-<div class ="">
+<section>
 	<form method ="post">
 		<input asp-for="@Model.Product.Id" hidden />
-		<div class="container backgroundWhite pr-4">
-			<div class = "card" style="border: 1px solid #000000">
-				<div class = "card-header bg-dark text-light ml-0 row container" style="border-radius: 0px;">
-					<div class="col-12 col-md-6">
-						<h1 class="text-white">@Model.Product.Name</h1>
-					</div>
-					<div class = "col-12 col-md-6 text-md-right">
-						<h1 class="text-warning">@((Model.Product.Price).ToString("c"))</h1>
-					</div>
-				</div>
-				<div class="card-body">
-					<div class="container rounded p2">
-						<div class="row">
-							<div class="col-12 col-lg-4 p-1 text-center">
-								<img src = "@WC.ImagePath@Model.Product.Image" width = "100%" class="rounded" />
-							</div>
-							<div class="col-12 col-lg-8">
-								<div class = "row pl-3">
+	<div class="row">
+		<div class="col-10 col-lg-6 text-center">
+			<img src = "@WC.ImagePath@Model.Product.Image" class="rounded image-change" />
+		</div>
+		<div class="col-12 col-lg-5">
+			<div style="margin-top: 30px; text-align:left">
+				<p class="brandtitle">@Model.Product.Brand</p>
+				<p class="category">@Model.Product.Category.Translate @Model.Product.ApplicationType.Name</p>
+				<p class="color">@Model.Product.Color</p>
+				<p class="text">Размер</p>
 
-									<div class="col-12">
-										<span class="badge p-3 border" style="background-color:lavenderblush">@Model.Product.Category.Translate</span>
-										<span class="badge p-3 border" style="background-color:azure">@Model.Product.ApplicationType.Name</span>
-										<h3 class="text-success"></h3>
-										<p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class = "card-footer bg-dark">
-					<div class="row">
-						<div class="col-12 col-md-6 pb-1">
-							<a asp-action="Index" class = "btn btn-success btn-square form-control btn-lg" style="height:50px;">Вернутся назад</a>
-						</div>
-						<div class="col-12 col-md-6">
-							@if(Model.ExistsInCart)
+
+				@{int valuesize = 1;}
+
+				@if(Model.Product.Article.XS == 0 & Model.Product.Article.S == 0 & Model.Product.Article.M == 0 & Model.Product.Article.L == 0 & Model.Product.Article.XL == 0 & Model.Product.Article.XXL == 0)
+				{
+					valuesize = 0;
+					<p class="text">Размеров нет в наличии</p>		
+				}
+				else
+				{
+			<select class = "dropdown-cus" name="size">
+				@if(Model.Product.Article.XS > 0)
+				{
+					<option value="XS">XS</option>
+				}
+				@if(Model.Product.Article.S > 0)
+				{
+					<option value="S">S</option>
+				}
+				@if(Model.Product.Article.M > 0)
+				{
+					<option value="M">M</option>
+				}
+				@if(Model.Product.Article.L > 0)
+				{
+					<option value="L">L</option>
+				}
+				@if(Model.Product.Article.XL > 0)
+				{
+					<option value="XL">XL</option>
+				}
+				@if(Model.Product.Article.XXL > 0)
+				{
+					<option value="XXL">XXL</option>
+				}
+			</select>
+				}
+					
+
+				<p class="price">@((Model.Product.Price).ToString()) РУБ</p>
+					
+
+					@if(User.IsInRole(WC.CustomerRole) | User.IsInRole(WC.AdminRole))
+					{
+						@if(valuesize == 1)
+						{
+							@if (Model.ExistsInCart)
 							{
-								<a asp-action="RemoveFromCart" asp-route-id="@Model.Product.Id" class = "btn btn-warning btn-square form-control btn-lg" style="height:50px;">Удалить из корзиы</a>
+								<button asp-controller="Home" asp-action="Index" class="button_cus">УДАЛИТЬ ИЗ КОРЗИНЫ</button> 
 							}
 							else
 							{
-								<button type = "submit" asp-route-id="@Model.Product.Id" class="btn btn-info form-control btn-lg" style="height:50px;">Добавить в корзину</button>	
+								<button type = "submit" asp-route-id="@Model.Product.Id" class="button_cus">ДОБАВИТЬ В КОРЗИНУ</button> 
 							}
+						}
+					}
+					else
+					{
+						<button asp-area="Identity" asp-page="/Account/Login" class="button_cus">АВТОРИЗОВАТЬСЯ И ДОБАВИТЬ В КОРИЗНУ</button>
+					}
+					
+				<p class="ship">ДОСТАВКА ПО РОССИИ В ТЕЧЕНИИ 4-12 ДНЕЙ</p>
+
+				<hr class="hr"/>
+				
+				
+
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-2 col-2">
+							<p class="another" style="color:black; margin-left: -15px;">Описание</p>
+						</div>
+						<div class="col-lg-3 col-3">
+							<p class="another" style="text-align: center">Возрат</p>
+						</div>
+						<div class="col-lg-3 col-3">
+							<p class="another" style="text-align: center">Доставка</p>
+						</div>
+						<div class="col-lg-4 col-4">
+							<p class="another">Таблица размеров</p>
+						</div>
+						<div class="col-lg-12 col-12">
+							<p class="discription">@Model.Product.Description</p>
+						</div>
+						<div class="col-lg-12 col-12">
+							<p class="art">Артикул: @Model.Product.ArticleId</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
+	</div>
 	</form>
-</div>
+</section>

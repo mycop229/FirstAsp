@@ -25,18 +25,23 @@ namespace Tor.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Authorize()
+        public IActionResult Authorize()
         {
             return View();
         }
 
         public async Task<IActionResult> Index()
         {
+
+
             HomeWM homeWM = new()
             {
-                Products = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).ToListAsync(),
-                Categories = _db.Category
+                Products = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Include(u => u.Article).ToListAsync(),
+                Categories = _db.Category,
+                Articles = _db.Article
             };
+
+
 
             return View(homeWM);
         }
@@ -54,13 +59,15 @@ namespace Tor.Controllers
 
             DetailsWM detailsVM = new DetailsWM()
             {
-                Product = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == id).FirstOrDefaultAsync(),
-                ExistsInCart = false
+                Product = await _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Include(u => u.Article).Where(u => u.Id == id).FirstOrDefaultAsync(),
+                ExistsInCart = false,
             };
 
-            foreach(var item in shoppingCartList)
+
+
+            foreach (var item in shoppingCartList)
             {
-                if(item.ProductId == id)
+                if (item.ProductId == id)
                 {
                     detailsVM.ExistsInCart = true;
                 }
@@ -70,10 +77,17 @@ namespace Tor.Controllers
             return View(detailsVM);
         }
 
+
+
+        
+
+
         [HttpPost, ActionName("Details")]
-        public IActionResult DetailsPost(int id)
+        public IActionResult DetailsPost(int id, string size)
         {
-           List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
+            var selectArticle = _db.Product.AsNoTracking().Where(u => u.Id == id).Select(u => u.ArticleId).SingleOrDefault();
+
+            List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
            
            if(HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart)!=null 
                 && HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart).Count() > 0)
@@ -81,8 +95,18 @@ namespace Tor.Controllers
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
 
-            shoppingCartList.Add(new ShoppingCart { ProductId = id });
+            shoppingCartList.Add(new ShoppingCart { ProductId = id, Size = size, Article = selectArticle });
+
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
+
+
+
+
+
+
+          
+
+            
 
             return RedirectToAction(nameof(Index));
         }
@@ -98,6 +122,7 @@ namespace Tor.Controllers
             }
 
             var itemToRemove = shoppingCartList.SingleOrDefault(r => r.ProductId == id);
+
             
             if(itemToRemove != null)
             {

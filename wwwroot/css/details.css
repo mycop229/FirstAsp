@@ -1,0 +1,122 @@
+﻿@font-face {
+    font-family: 'Helvetica Neue';
+    src: local('Helvetica Neue Thin'), local('Helvetica-Neue-Thin'), url('/fonts/HelveticaNeueCyr-Thin.woff2') format('woff2'), url('/fonts/HelveticaNeueCyr-Thin.woff') format('woff'), url('/fonts/HelveticaNeueCyr-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'proximanova_regular';
+    src: local('proximanova_regular'), local('proximanova_regular'), url('/fonts/proximanova_regular.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+
+.dropdown-cus {
+    transition: 0.1s;
+    color: black;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    text-align: left;
+    width: 430px;
+    height: 50px;
+    font-size: 15px;
+    font-family: proximanova_regular;
+    letter-spacing: 0.8px;
+}
+
+.image-change {
+    width: 680px;
+    height: 850px;
+    margin-left: -100px;
+}
+
+.brandtitle {
+    margin-top: 100px;
+    font-size: 27px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: -5px;
+    font-family: proximanova_regular;
+}
+
+.category {
+    font-size: 15px;
+    color: gray;
+    font-weight: bold;
+    font-family: proximanova_regular;
+}
+
+.color {
+    font-size: 15px;
+    color: gray;
+    font-weight: bold;
+    margin-top: -20px;
+    font-family: proximanova_regular;
+}
+
+.text {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: proximanova_regular;
+    letter-spacing: 0.6px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    font-family: 'Helvetica Neue';
+    letter-spacing: 0.5px;
+}
+
+.button_cus{
+    font-size: 14px;
+    border: none;
+    background-color: gray;
+    color: white;
+    width: 430px;
+    height: 50px;
+    font-family: 'Helvetica Neue';
+    letter-spacing: 0.9px;
+}
+
+.ship {
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-left: 85px;
+    margin-top: 15px;
+    font-family: proximanova_regular;
+}
+
+.hr {
+    color: black;
+    margin-right: 200px;
+    width: 425px;
+}
+
+.another {
+    color: gray;
+    font-size: 13px;
+    font-family: proximanova_regular;
+    letter-spacing: 0.2px;
+}
+
+.discription {
+    text-align: left;
+    font-size: 16px;
+    color: gray;
+    margin-left: -15px;
+    font-family: 'Helvetica Neue';
+    letter-spacing: 0.7px;
+}
+
+.art {
+    text-align: left;
+    font-size: 15px;
+    color: gray;
+    margin-left: -15px;
+    font-family: 'Helvetica Neue';
+    letter-spacing: 0.7px;
+}

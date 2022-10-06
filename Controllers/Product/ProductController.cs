@@ -37,6 +37,7 @@ namespace Tor.Controllers.Product
             ProductVM productVM = new ProductVM()
             {
                 Product = new Models.Product(),
+                Article = new Models.Article(),
 
                 CategorySelectList = _db.Category.Select(i => new SelectListItem
                 {
@@ -48,6 +49,7 @@ namespace Tor.Controllers.Product
                     Text = i.Name,
                     Value = i.Id.ToString()
                 })
+
             };
 
             if (id == null)
@@ -57,6 +59,10 @@ namespace Tor.Controllers.Product
             else
             {
                 productVM.Product = await _db.Product.FindAsync(id);
+
+                var article = await _db.Article.Where(u => u.ArticleId == productVM.Product.ArticleId).Select(u => u.ArticleId).FirstOrDefaultAsync();
+
+                productVM.Article = await _db.Article.FindAsync(article);
 
                 if (productVM.Product == null)
                 {
@@ -88,12 +94,25 @@ namespace Tor.Controllers.Product
 
                     productVM.Product.Image = fileName + extension;
 
+                    await _db.Article.AddAsync(productVM.Article);
+
+                    await _db.SaveChangesAsync();
+
+                    int lastId = await _db.Article.OrderBy(u => u.ArticleId).Select(u => u.ArticleId).LastOrDefaultAsync();
+
+                    productVM.Product.ArticleId = lastId;
+
+
+
+
                     await _db.Product.AddAsync(productVM.Product);
                     
                 }
                 else
                 {
                     var objFromDb = await _db.Product.AsNoTracking().FirstOrDefaultAsync(u => u.Id == productVM.Product.Id);
+
+                    var articleId = await _db.Article.Where(u => u.ArticleId == objFromDb.ArticleId).AsNoTracking().FirstOrDefaultAsync();
 
                     if (files.Count > 0)
                     {
@@ -119,9 +138,14 @@ namespace Tor.Controllers.Product
                     {
                         productVM.Product.Image = objFromDb.Image;
                     }
+
+                    _db.Article.Update(productVM.Article);
+
                     _db.Product.Update(productVM.Product);
+                    
                 }
                 await _db.SaveChangesAsync();
+
                 return RedirectToAction("ProductIndex");
 
             }
@@ -160,6 +184,10 @@ namespace Tor.Controllers.Product
         {
             var product = _db.Product.Find(id);
 
+            var articleId = await _db.Product.Where(u => u.Id == product.Id).Select(u => u.ArticleId).FirstOrDefaultAsync();
+
+            var article = await _db.Article.Where(u => u.ArticleId == articleId).FirstOrDefaultAsync();
+
             if (product == null)
                 return NotFound();
 
@@ -171,7 +199,9 @@ namespace Tor.Controllers.Product
                 System.IO.File.Delete(oldFile);
             }
 
+
             _db.Product.Remove(product);
+            _db.Article.Remove(article);
             await _db.SaveChangesAsync();
             return RedirectToAction("ProductIndex");
         }

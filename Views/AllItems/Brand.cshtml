@@ -1,9 +1,87 @@
 ﻿@model Tor.Models.ViewModels.HomeWM
 
+<link rel="stylesheet" href="/css/sorting.css" />
+
 <div class="container">
 	
 	<br />
 	<div class="row">
+
+		<form asp-action="Sorting" method="post" > 
+			<div class = "container">
+				<div class ="row align-items-center mb-3">
+					
+					<div class="col-md-2 mr-5 mb-2">
+						@*<label style="font-size: 10px">Отсортировать по:  </label>*@
+						<select class = "dropdown-cus" name="sort">
+						<option value="">Отсортировать</option>
+						<option value="Ascending">По возрастанию цены</option>
+						<option value="Descending">По убыванию</option>
+					</select>
+					</div>
+					
+					<div class="col-md-1 mr-5 mb-2">
+					@*<label style="font-size: 10px">Категория:  </label>*@
+					<select class = "dropdown-cus" name="category">
+						<option value="">Категория</option>
+					    <option value="1">Футболки</option>
+					    <option value="2">Худи</option>
+						<option value="4">Кроссовки</option>
+					    <option value="4">Сумки</option>
+						<option value="7">Шапки</option>
+					    <option value="8">Свитшоты</option>
+						<option value="9">Джинсы</option>
+					    <option value="10">Тапочки</option>
+						<option value="11">Кеды</option>
+					    <option value="12">Перчатки</option>
+						<option value="13">Ремни</option>
+					</select>
+					</div>
+
+					<div class="col-md-1 mr-5 mb-2">
+					@*<label style="font-size: 10px">Пол:  </label>*@
+					<select class = "dropdown-cus" name="gender">
+						<option value="">Пол</option>
+					    <option value="1">Мужское</option>
+					    <option value="2">Женское</option>
+					</select>
+					</div>
+					
+					<div class="col-md-1 mr-5 mb-2">
+					@*<label style="font-size: 10px">Бренд:  </label>*@
+					<select class = "dropdown-cus" name="brand">
+						<option value="">Бренд</option>
+						<option value="Carhartt">Carhartt</option>
+						<option value="Nike">Nike</option>
+					</select>
+					</div>
+
+					
+					<div class="col-md-1 mb-2 mr-5">
+						@*<label style="font-size: 10px">Размер:  </label>*@
+					<select class = "dropdown-cus" name="size">
+						<option value="">Размер</option>
+					    <option value="XS">XS</option>
+					    <option value="S">S</option>
+						<option value="M">M</option>
+					    <option value="L">L</option>
+						<option value="XL">XL</option>
+					    <option value="XXL">XXL</option>
+					</select>
+
+					</div>
+					
+					<div class="col-md-3 sticky-bottom">
+						<p>
+						<input type="submit" class="button-cus" value="Применить" />
+						</p>
+					</div>
+					
+					
+				</div>
+			</div>
+		</form>
+
 		@foreach(var prod in Model.Products)
 		{
 			<partial name="_IndividualProductCard" model="prod" />

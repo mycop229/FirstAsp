@@ -44,13 +44,9 @@ namespace Tor.Controllers.Cart
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
 
-
-
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
 
             IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
-
-            ViewBag.Promocode = "AYE";
 
             return View(prodList);
         }
@@ -91,7 +87,7 @@ namespace Tor.Controllers.Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
-        public async Task<IActionResult> SummaryPostAsync(ProductUserVM ProductUserVM)
+        public async Task<IActionResult> SummaryPostAsync(ProductUserVM productUserVM)
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -102,145 +98,193 @@ namespace Tor.Controllers.Cart
             {
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
+
             List<int> prodInCart = shoppingCartList.Select(i => i.ProductId).ToList();
+
             IEnumerable<Models.Product> prodList = await _db.Product.Where(u => prodInCart.Contains(u.Id)).ToListAsync();
 
-            ProductUserVM.ProductList = prodList.ToList();
+            productUserVM.ProductList = prodList.ToList();
 
+            if (productUserVM.Promocode != null)
+            {
+                return View(await DownscalePromoAsync(productUserVM.Promocode, productUserVM.NewPrice, productUserVM.OldPrice, productUserVM.DiscountAmount, productUserVM.ProductList)); //Изменение промокода
+            }
 
-            if (ProductUserVM.Promocode != null)
+            else
+            {
+                await SendEmailAsync(productUserVM); //Отправка сообщения
+
+                foreach (var item in shoppingCartList)
                 {
-
-                // Селект количества промо
-
-                var remainderPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.ValuePromo).SingleOrDefaultAsync(); 
-
-                if(remainderPromo <= 0)
-                {
-                    //Обработать отсутсвие промокода
-                    return RedirectToAction(nameof(Error));
-                }
-                if(remainderPromo > 0)
-                {
-                    // Селект типа промокода
-                    var typePromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.TypePromo).SingleOrDefaultAsync();
-
-                    //Селект размера промокода
-
-                    var dimensionPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).Select(u => u.Dimension).SingleOrDefaultAsync();
-
-                    if (typePromo == Models.Type.Sum) 
-                    {
-                        //Вычисление для вычитания
-                        ProductUserVM.NewPrice = ProductUserVM.OldPrice - dimensionPromo;
-                    }
-                    if(typePromo == Models.Type.Percent)
-                    {
-                        //Вычисление для процентов
-                        ProductUserVM.NewPrice = ProductUserVM.OldPrice - (ProductUserVM.OldPrice / 100 * dimensionPromo);
-                    }
-
-                    ProductUserVM.DiscountAmount = ProductUserVM.OldPrice - ProductUserVM.NewPrice;
-
-                    var quantityIncrement = await _db.PromoCode.AsNoTracking().Where(u => u.Name == ProductUserVM.Promocode).FirstOrDefaultAsync();
-
-                    quantityIncrement.ValuePromo = quantityIncrement.ValuePromo - 1;
-
-                    _db.PromoCode.Update(quantityIncrement);
-
-                    await _db.SaveChangesAsync();
+                    await DownscaleSizeAsync(item.Size, item.Article);  //Уменьшение остатков размеров
                 }
 
-
-
-                return View(ProductUserVM);
-                }
-
-                else
-                {
-                var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
-
-                var subject = "Оформление нового заказа";
-
-                double summa = 0;
-
-                string HtmlBody;
-
-                using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-                {
-                    HtmlBody = sr.ReadToEnd();
-                }
-
-                StringBuilder productListSB = new();
-                StringBuilder productListToDB = new();
-                foreach (var prod in ProductUserVM.ProductList)
-                {
-                    productListToDB.Append(Environment.NewLine + $"{prod.Name}");
-                    productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
-                    summa += prod.Price;
-                }
-
-                string messageBody = "";
-
-                string Id_user = clsCommon.GetUserId(this.User);
-
-                if (ProductUserVM.NewPrice != 0)
-                {
-                    messageBody = string.Format(HtmlBody,
-                    ProductUserVM.ApplicationUser.FullName,
-                    ProductUserVM.NewPrice.ToString("c"),
-                    ProductUserVM.ApplicationUser.Email,
-                    ProductUserVM.ApplicationUser.PhoneNumber,
-                    ProductUserVM.ApplicationUser.City,
-                    ProductUserVM.ApplicationUser.Address,
-                    productListSB.ToString());
-
-                    Order order = new Order
-                    {
-                        OrderDate = System.DateTime.Today,
-                        OrderPrice = ProductUserVM.NewPrice.ToString(),
-                        OrderList = productListToDB.ToString(),
-                        OrderAddress = ProductUserVM.ApplicationUser.Address,
-                        UserId = Id_user
-                    };
-                    await _db.Order.AddAsync(order);
-                }
-
-                else
-                {
-                    messageBody = string.Format(HtmlBody,
-                    ProductUserVM.ApplicationUser.FullName,
-                    ProductUserVM.OldPrice.ToString("c"),
-                    ProductUserVM.ApplicationUser.Email,
-                    ProductUserVM.ApplicationUser.PhoneNumber,
-                    ProductUserVM.ApplicationUser.City,
-                    ProductUserVM.ApplicationUser.Address,
-                    productListSB.ToString());
-
-                    Order order = new Order
-                    {
-                        OrderDate = System.DateTime.Today,
-                        OrderPrice = ProductUserVM.OldPrice.ToString(),
-                        OrderList = productListToDB.ToString(),
-                        OrderAddress = ProductUserVM.ApplicationUser.Address,
-                        UserId = Id_user
-                    };
-                    await _db.Order.AddAsync(order);
-                }
-
-                
-
-
-                EmailService emailService = new EmailService();
-
-                await emailService.SendEmailAsync(ProductUserVM.ApplicationUser.Email, subject, messageBody);
-
-                
                 _db.SaveChanges();
-
                 return RedirectToAction(nameof(InquiryConfirmation));
             }
- }
+        }
+        public async Task DownscaleSizeAsync(string size, int article) //Изменение кол-во остатков размера
+        {
+            Article qualitySize = default;
+
+            if (size == "XS")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.XS = qualitySize.XS - 1;
+            }
+            if (size == "S")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.S = qualitySize.S - 1;
+            }
+            if (size == "M")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.M = qualitySize.M - 1;
+            }
+            if (size == "L")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.L = qualitySize.L - 1;
+            }
+            if (size == "XL")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.XL = qualitySize.XL - 1;
+            }
+            if (size == "XXL")
+            {
+                qualitySize = await _db.Article.Where(u => u.ArticleId == article).FirstOrDefaultAsync();
+                qualitySize.XXL = qualitySize.XXL - 1;
+            }
+            _db.Article.Update(qualitySize);
+        }
+        public async Task<ProductUserVM> DownscalePromoAsync(string promo, double newPrice, double oldPrice, double discountAmount, IList<Models.Product> productList)
+        {
+            // Селект количества промо
+
+            var remainderPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == promo).Select(u => u.ValuePromo).SingleOrDefaultAsync();
+
+            if (remainderPromo <= 0)
+            {
+                //Обработать отсутсвие промокода
+                RedirectToAction(nameof(Error));
+            }
+            if (remainderPromo > 0)
+            {
+                // Селект типа промокода
+                var typePromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == promo).Select(u => u.TypePromo).SingleOrDefaultAsync();
+
+                //Селект размера промокода
+
+                var dimensionPromo = await _db.PromoCode.AsNoTracking().Where(u => u.Name == promo).Select(u => u.Dimension).SingleOrDefaultAsync();
+
+                if (typePromo == Models.Type.Sum)
+                {
+                    //Вычисление для вычитания
+                    newPrice = oldPrice - dimensionPromo;
+                }
+                if (typePromo == Models.Type.Percent)
+                {
+                    //Вычисление для процентов
+                    newPrice = oldPrice - (oldPrice / 100 * dimensionPromo);
+                }
+
+                discountAmount = oldPrice - newPrice;
+
+                var quantityIncrement = await _db.PromoCode.AsNoTracking().Where(u => u.Name == promo).FirstOrDefaultAsync();
+
+                quantityIncrement.ValuePromo = quantityIncrement.ValuePromo - 1;
+
+                _db.PromoCode.Update(quantityIncrement);
+
+                await _db.SaveChangesAsync();
+
+                ProductUserVM.Promocode = promo;
+                ProductUserVM.NewPrice = newPrice;
+                ProductUserVM.OldPrice = oldPrice;
+                ProductUserVM.DiscountAmount = discountAmount;
+                ProductUserVM.ProductList = productList;
+            }
+            return (ProductUserVM);
+
+        } //Изменение кол-во промокодов
+        public async Task SendEmailAsync(ProductUserVM productUserVM) // Send E-mail message
+        {
+            var PathToTemplate = @"C:\Users\volko\source\repos\Tor\Template\Otpravit.cshtml";
+            var subject = "Оформление нового заказа";
+            double summa = 0;
+            string HtmlBody;
+
+            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+            {
+                HtmlBody = sr.ReadToEnd();
+            }
+
+            StringBuilder productListSB = new();
+            StringBuilder productListToDB = new();
+            foreach (var prod in productUserVM.ProductList)
+            {
+                productListToDB.Append(Environment.NewLine + $"{prod.Name}");
+                productListSB.Append($"- Наименование: {prod.Name} <span style='font-size:14px;'> (Стоимость: {prod.Price.ToString("c")})</span><br />");
+                summa += prod.Price;
+            }
+
+            string messageBody = "";
+
+            string Id_user = clsCommon.GetUserId(this.User);
+
+            if (ProductUserVM.NewPrice != 0)
+            {
+                messageBody = string.Format(HtmlBody,
+                productUserVM.ApplicationUser.FullName,
+                productUserVM.NewPrice.ToString("c"),
+                productUserVM.ApplicationUser.Email,
+                productUserVM.ApplicationUser.PhoneNumber,
+                productUserVM.ApplicationUser.City,
+                productUserVM.ApplicationUser.Address,
+                productListSB.ToString());
+
+                Order order = new Order
+                {
+                    OrderDate = System.DateTime.Today,
+                    OrderPrice = productUserVM.NewPrice.ToString(),
+                    OrderList = productListToDB.ToString(),
+                    OrderAddress = productUserVM.ApplicationUser.Address,
+                    UserId = Id_user
+                };
+                await _db.Order.AddAsync(order);
+            }
+
+            else
+            {
+                messageBody = string.Format(HtmlBody,
+                productUserVM.ApplicationUser.FullName,
+                productUserVM.OldPrice.ToString("c"),
+                productUserVM.ApplicationUser.Email,
+                productUserVM.ApplicationUser.PhoneNumber,
+                productUserVM.ApplicationUser.City,
+                productUserVM.ApplicationUser.Address,
+                productListSB.ToString());
+
+                Order order = new Order
+                {
+                    OrderDate = System.DateTime.Today,
+                    OrderPrice = productUserVM.OldPrice.ToString(),
+                    OrderList = productListToDB.ToString(),
+                    OrderAddress = productUserVM.ApplicationUser.Address,
+                    UserId = Id_user
+                };
+                await _db.Order.AddAsync(order);
+            }
+
+            EmailService emailService = new EmailService();
+
+            await emailService.SendEmailAsync(productUserVM.ApplicationUser.Email, subject, messageBody);
+        }
+
+
+
 
 
         public IActionResult Error()

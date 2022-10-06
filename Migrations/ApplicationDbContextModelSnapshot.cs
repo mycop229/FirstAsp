@@ -237,6 +237,39 @@ namespace Tor.Migrations
                     b.ToTable("ApplicationType");
                 });
 
+            modelBuilder.Entity("Tor.Models.Article", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ArticleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("L")
+                        .HasColumnType("int");
+
+                    b.Property<int>("M")
+                        .HasColumnType("int");
+
+                    b.Property<int>("S")
+                        .HasColumnType("int");
+
+                    b.Property<int>("XL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("XS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("XXL")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId");
+
+                    b.ToTable("Article");
+                });
+
             modelBuilder.Entity("Tor.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -313,11 +346,17 @@ namespace Tor.Migrations
                     b.Property<int>("ApplicationTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -337,6 +376,8 @@ namespace Tor.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationTypeId");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("CategoryId");
 
@@ -442,6 +483,12 @@ namespace Tor.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Tor.Models.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Tor.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -449,6 +496,8 @@ namespace Tor.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationType");
+
+                    b.Navigation("Article");
 
                     b.Navigation("Category");
                 });

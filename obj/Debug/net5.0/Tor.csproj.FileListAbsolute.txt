@@ -226,3 +226,4 @@ C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\MailingList\Mailing
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Order\OrderListIndex.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Order\Exp.cshtml.g.cs
 C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\Home\Authorize.cshtml.g.cs
+C:\Users\volko\source\repos\Tor\obj\Debug\net5.0\Razor\Views\AllItems\Sorting.cshtml.g.cs

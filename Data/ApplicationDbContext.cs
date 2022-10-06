@@ -13,6 +13,8 @@ namespace Tor.Data
         public DbSet<PromoСode> PromoCode { get; set; }
         public DbSet<MailingList> MailingList { get; set; }
         public DbSet<Order> Order { get; set; } 
+        
+        public DbSet<Article> Article { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

@@ -1,0 +1,35 @@
+﻿.button-cus {
+    margin-top:10px;
+    background: white;
+    color: #a5a5a5;
+    font-family: Arial;
+    margin-left: -20px;
+    transition: 0.5s;
+    font-size: 13px;
+    border: none;
+}
+.button-cus:hover {
+    color: black;
+    transition: 0.5s;
+    font-size: 15px;
+}
+
+.dropdown-cus {
+    transition: 0.1s;
+    color: black;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    text-align: center;
+}
+
+.dropdown-cus:active {
+        font-size: 16px;
+        transition: 0.6s;
+}
+    .dropdown-cus:hover {
+        font-size: 17px;
+        transition: 0.5s;
+        border-bottom: groove;
+    }
