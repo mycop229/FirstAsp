@@ -94,11 +94,17 @@ namespace Tor.Controllers.Product
 
                     productVM.Product.Image = fileName + extension;
 
+                    
+
                     await _db.Article.AddAsync(productVM.Article);
 
                     await _db.SaveChangesAsync();
 
                     int lastId = await _db.Article.OrderBy(u => u.ArticleId).Select(u => u.ArticleId).LastOrDefaultAsync();
+
+                    productVM.Article.ArticleName = lastId.ToString();
+
+                    _db.Article.Update(productVM.Article);
 
                     productVM.Product.ArticleId = lastId;
 
@@ -138,6 +144,8 @@ namespace Tor.Controllers.Product
                     {
                         productVM.Product.Image = objFromDb.Image;
                     }
+
+                    productVM.Article.ArticleName = productVM.Article.ArticleId.ToString();
 
                     _db.Article.Update(productVM.Article);
 

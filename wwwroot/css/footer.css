@@ -1,0 +1,47 @@
+﻿@font-face {
+    font-family: 'Helvetica Neue';
+    src: local('Helvetica Neue Thin'), local('Helvetica-Neue-Thin'), url('/fonts/HelveticaNeueCyr-Thin.woff2') format('woff2'), url('/fonts/HelveticaNeueCyr-Thin.woff') format('woff'), url('/fonts/HelveticaNeueCyr-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'proximanova_regular';
+    src: local('proximanova_regular'), local('proximanova_regular'), url('/fonts/proximanova_regular.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+.zagolovok{
+    font-family: proximanova_regular;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+.textt {
+    font-family: proximanova_regular;
+    font-size: 12px;
+    margin-top: -13px;
+    letter-spacing: 0.35px;
+}
+
+.textsecond {
+    margin-top: 20px;
+    font-family: proximanova_regular;
+    font-size: 10px;
+    letter-spacing: 0.3px;
+    color: gray;
+    margin-left: 117px;
+}
+
+.TOR {
+    margin-top: 5px;
+    font-family: proximanova_regular;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    color: black;
+    margin-left: 175px;
+}

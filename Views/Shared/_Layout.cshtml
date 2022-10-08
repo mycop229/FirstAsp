@@ -14,9 +14,16 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css">
+    <link rel="stylesheet" href="~/css/footer.css" />
 </head>
 <body>
+
+
+
     <header style="margin-bottom:56px;">
+        <div class="col-xl-12">
+                <p>TOR</p>
+            </div>
         <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tor</a>
@@ -129,23 +136,56 @@
 
 
 
-
-
-
-
-
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Tor - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer border-top">
+        <div class="container mt-3">
+            <div class="row">
+               
+                    <div class="col-12 col-xl-3">
+                        <p class="zagolovok" style="text-align:left; margin-left: 117px;">О нас</p>
+                        <p class="textt" style="text-align:left; margin-left: 117px;">Дистрибуция</p>
+                        <p class="textt" style="text-align:left; margin-left: 117px;">Контакты</p>
+                    </div>
+                    <div class="col-12 col-xl-3">
+                        <p class="zagolovok" style="text-align:left; margin-left: 55px;">Помощь покупателю</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Доставка и оплата</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Условия возварата</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Публичная оферта</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Таблица размеров</p>
+                    </div>
+                    <div class="col-12 col-xl-3">
+                        <p class="zagolovok" style="text-align:left; margin-left: 90px;">Контакты</p>
+                        <p class="textt" style="text-align:left; margin-left: 90px;">+7 (904) 142-25-77</p>
+                        <p class="textt" style="text-align:left; margin-left: 90px;">+7 (904) 142-25-78</p>
+                        <p class="textt" style="text-align:left; margin-left: 90px;"></p>
+                        <p class="textt" style="text-align:left; margin-left: 90px;">Ежедневно с 10:00 до 22:00</p>
+                        <p class="textt" style="text-align:left; margin-left: 90px;">Email: tor@vk.com</p>
+                    </div>
+                    <div class="col-12 col-xl-3">
+                        <p class="zagolovok" style="text-align:left; margin-left: 55px;">Социальные сети</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Vkontakte</p>
+                        <p class="textt" style="text-align:left; margin-left: 55px;">Telegram</p>
+                    </div>
+
+
+                    <div class="col-12 col-xl-4">
+                        <p class="textsecond">© TOR, 2022-2022. Все права не защищены</p>
+                    </div>
+                    <div class="col-12 col-xl-4">
+                        <p class="TOR">TOR</p>
+                    </div> 
+                    <div class="col-12 col-xl-4">
+                        <p class="textsecond" style="margin-left: 155px; text-decoration: underline">Пользовательское соглашение</p>
+                    </div> 
+            </div>
         </div>
     </footer>
+    
     <script src="~//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

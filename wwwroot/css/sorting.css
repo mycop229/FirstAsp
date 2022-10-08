@@ -1,5 +1,19 @@
-﻿.button-cus {
-    margin-top:10px;
+﻿@font-face {
+    font-family: 'Helvetica Neue';
+    src: local('Helvetica Neue Thin'), local('Helvetica-Neue-Thin'), url('/fonts/HelveticaNeueCyr-Thin.woff2') format('woff2'), url('/fonts/HelveticaNeueCyr-Thin.woff') format('woff'), url('/fonts/HelveticaNeueCyr-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'proximanova_regular';
+    src: local('proximanova_regular'), local('proximanova_regular'), url('/fonts/proximanova_regular.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+.button-cus {
+    margin-top: 10px;
     background: white;
     color: #a5a5a5;
     font-family: Arial;
@@ -7,12 +21,16 @@
     transition: 0.5s;
     font-size: 13px;
     border: none;
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
 }
-.button-cus:hover {
-    color: black;
-    transition: 0.5s;
-    font-size: 15px;
-}
+    .button-cus:hover {
+        color: black;
+        transition: 0.5s;
+        font-size: 15px;
+        font-family: 'Helvetica Neue';
+        font-weight: bold;
+    }
 
 .dropdown-cus {
     transition: 0.1s;
@@ -22,14 +40,20 @@
     border-top: none;
     border-bottom: none;
     text-align: center;
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
 }
 
-.dropdown-cus:active {
+    .dropdown-cus:active {
         font-size: 16px;
         transition: 0.6s;
-}
+        font-family: 'Helvetica Neue';
+        font-weight: bold;
+    }
     .dropdown-cus:hover {
         font-size: 17px;
         transition: 0.5s;
         border-bottom: groove;
+        font-family: 'Helvetica Neue';
+        font-weight: bold;
     }
